@@ -1,0 +1,49 @@
+trading:
+  symbols:
+    - RELIANCE
+    - TCS
+    - HDFCBANK
+    - INFY
+    - ICICIBANK
+  max_symbols: 10
+  scan_interval_seconds: 300
+  
+risk:
+  max_risk_per_trade_pct: 1.0
+  max_daily_loss_pct: 3.0
+  min_risk_reward_ratio: 2.0
+  atr_multiplier_stoploss: 2.0
+  max_positions: 5
+  
+technical:
+  ema_periods: [9, 21, 50, 200]
+  rsi_period: 14
+  rsi_overbought: 70
+  rsi_oversold: 30
+  atr_period: 14
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  
+news:
+  rss_feeds:
+    - "https://www.moneycontrol.com/rss/business.xml"
+    - "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms"
+  nse_announcements_url: "https://www.nseindia.com/api/corporate-announcements"
+  sentiment_threshold_bullish: 0.6
+  sentiment_threshold_bearish: -0.6
+
+database:
+  type: "sqlite"  # or "postgresql"
+  sqlite_path: "data/trading.db"
+  postgresql_url: "postgresql://user:pass@localhost:5432/trading"
+
+dashboard:
+  host: "0.0.0.0"
+  port: 8501
+  update_interval_seconds: 5
+
+logging:
+  level: "INFO"
+  file: "logs/trading.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
