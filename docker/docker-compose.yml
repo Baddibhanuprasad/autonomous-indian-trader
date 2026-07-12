@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  trading-agent:
+    build: .
+    container_name: indian-trading-agent
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - ANGEL_ONE_API_KEY=${ANGEL_ONE_API_KEY}
+      - ANGEL_ONE_CLIENT_ID=${ANGEL_ONE_CLIENT_ID}
+      - ANGEL_ONE_PASSWORD=${ANGEL_ONE_PASSWORD}
+      - ANGEL_ONE_TOTP_SECRET=${ANGEL_ONE_TOTP_SECRET}
+      - DHAN_CLIENT_ID=${DHAN_CLIENT_ID}
+      - DHAN_ACCESS_TOKEN=${DHAN_ACCESS_TOKEN}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen2.5:7b}
+    restart: unless-stopped
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-server
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    command: serve
+
+volumes:
+  ollama_data:
